@@ -1,97 +1,65 @@
 
-const achievements = [
-  ["Stone Age", "Mine stone with a pickaxe"],
-  ["Getting an Upgrade", "Craft a stone pickaxe"],
-  ["Acquire Hardware", "Smelt an iron ingot"],
-  ["Suit Up", "Equip a piece of iron armor"],
-  ["Hot Stuff", "Fill a bucket with lava"],
-  ["Isn't It Iron Pick", "Craft an iron pickaxe"],
-  ["Not Today, Thank You", "Block a projectile with a shield"],
-  ["Ice Bucket Challenge", "Obtain a block of obsidian"],
-  ["Diamonds!", "Acquire diamonds"],
-  ["We Need to Go Deeper", "Enter the Nether through a portal"],
-  ["Return to Sender", "Kill a ghast with its own fireball"],
-  ["A Terrible Fortress", "Locate a Nether fortress"],
-  ["Those Were the Days", "Enter a bastion remnant"],
-  ["Hidden in the Depths", "Obtain ancient debris"],
-  ["Cover Me in Debris", "Wear a full set of netherite armor"],
-  ["Not Quite \"Nine\" Lives", "Fully charge a respawn anchor"],
-  ["Enchanter", "Enchant an item at an enchantment table"],
-  ["Zombie Doctor", "Cure a zombie villager"],
-  ["Eye Spy", "Find a stronghold"],
-  ["The End?", "Enter the End Portal"],
-  ["Free the End", "Defeat the Ender Dragon"],
-  ["The Next Generation", "Hold the dragon egg"],
-  ["Remote Getaway", "Use an end gateway"],
-  ["You Need a Mint", "Collect dragon's breath in a bottle"],
-  ["Subspace Bubble", "Travel 7 km in the Overworld via the Nether"],
-  ["Sniper Duel", "Kill a skeleton from 50 meters away"],
-  ["Monster Hunter", "Kill any hostile mob"],
-  ["Take Aim", "Shoot something with a bow and arrow"],
-  ["Sweet Dreams", "Sleep in a bed to skip the night"],
-  ["What a Deal!", "Trade with a villager"],
-  ["Hired Help", "Summon an iron golem"],
-  ["The Parrots and the Bats", "Breed two animals"],
-  ["Best Friends Forever", "Tame an animal"],
-  ["Two by Two", "Breed every animal type"],
-  ["Fishy Business", "Catch a fish"],
-  ["Tactical Fishing", "Catch a fish with a bucket"],
-  ["A Seedy Place", "Plant and grow a seed"],
-  ["A Balanced Diet", "Eat every type of food item"],
-  ["Serious Dedication", "Break a netherite hoe"],
-  ["Wax On", "Wax a copper block with honeycomb"],
-  ["Wax Off", "Scrape wax off a copper block"],
-  ["Sound the Alarm!", "Ring a bell during a raid"],
-  ["Adventuring Time", "Discover every biome"],
-  ["Voluntary Exile", "Kill a raid captain"],
-  ["Postmortal", "Use a Totem of Undying to cheat death"],
-  ["Total Beelocation", "Move a bee nest with 3 bees using Silk Touch"],
-  ["Sticky Situation", "Slide down a honey block"],
-  ["The Cutest Predator", "Catch an axolotl in a bucket"],
-  ["Who's the Pillager Now?", "Shoot a pillager with its own crossbow"],
-  ["Ol' Betsy", "Shoot a crossbow"],
-  ["The Power of Books", "Fully power an enchanting table with bookshelves"],
-  ["Star Trader", "Trade with a villager at build height"],
-  ["Feelin' Fancy", "Wear armor trimmed in every slot"],
-  ["Light as a Rabbit", "Walk on powder snow with leather boots"],
-  ["It Spreads", "Kill a mob near a sculk catalyst"],
-  ["Whatever Floats Your Goat!", "Ride a boat with a goat"],
-  ["Caves & Cliffs", "Survive a fall from build height to bedrock"],
-  ["Is It a Balloon?", "Levitated 50 blocks by a shulker"],
-  ["Just Keep Swimming", "Swim 1 km continuously"],
-  ["Spelunker", "Mine an ore at deepslate level"]
+const advancements = [
+  { name: "Stone Age", desc: "Mine stone with your new pickaxe." },
+  { name: "Getting an Upgrade", desc: "Construct a better pickaxe." },
+  { name: "Acquire Hardware", desc: "Smelt an iron ingot." },
+  { name: "Suit Up", desc: "Protect yourself with a piece of iron armor." },
+  { name: "Hot Stuff", desc: "Fill a bucket with lava." },
+  { name: "Isn't It Iron Pick", desc: "Upgrade your pickaxe." },
+  { name: "Not Today, Thank You", desc: "Block a projectile with a shield." },
+  { name: "Ice Bucket Challenge", desc: "Obtain a block of obsidian." },
+  { name: "Diamonds!", desc: "Acquire diamonds." },
+  { name: "We Need to Go Deeper", desc: "Enter the Nether." },
+  { name: "Subspace Bubble", desc: "Use the Nether to travel 7 km in the Overworld." },
+  { name: "Return to Sender", desc: "Destroy a Ghast with its own fireball." },
+  { name: "Those Were the Days", desc: "Enter a Bastion Remnant." },
+  { name: "Hidden in the Depths", desc: "Obtain ancient debris." },
+  { name: "Who's Cutting Onions?", desc: "Obtain Crying Obsidian." },
+  { name: "Oh Shiny", desc: "Distract Piglins with gold." },
+  { name: "This Boat Has Legs", desc: "Ride a Strider with a warped fungus on a stick." },
+  { name: "A Terrible Fortress", desc: "Break your way into a Nether Fortress." },
+  { name: "Eye Spy", desc: "Follow an Eye of Ender." },
+  { name: "The End?", desc: "Enter the End dimension." },
+  { name: "Free the End", desc: "Kill the Ender Dragon." },
+  { name: "The Next Generation", desc: "Hold the Dragon Egg." },
+  { name: "Remote Getaway", desc: "Escape the End using an End Gateway." },
+  { name: "The End... Again...", desc: "Respawn the Ender Dragon." },
+  { name: "How Did We Get Here?", desc: "Have every effect at the same time." }
 ];
 
-function generateBoard() {
-  const board = document.getElementById("bingo-board");
-  board.innerHTML = "";
-  const selected = [];
-
-  while (selected.length < 24) {
-    const random = achievements[Math.floor(Math.random() * achievements.length)];
-    if (!selected.includes(random)) {
-      selected.push(random);
-    }
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
   }
-
-  for (let i = 0; i < 25; i++) {
-    const cell = document.createElement("div");
-    cell.className = "bingo-cell";
-
-    if (i === 12) {
-      cell.innerText = "FREE SPACE";
-      cell.classList.add("free-space");
-    } else {
-      const item = selected[i < 12 ? i : i - 1];
-      cell.innerText = item[0];
-      cell.title = item[1]; // Tooltip on hover
-      cell.addEventListener("click", () => {
-        alert(item[0] + "\n\n" + item[1]);
-      });
-    }
-
-    board.appendChild(cell);
-  }
+  return array;
 }
 
-window.onload = generateBoard;
+function generateBingoCard() {
+  const grid = document.getElementById("bingo");
+  grid.innerHTML = "";
+  const shuffled = shuffle([...advancements]).slice(0, 25);
+
+  shuffled.forEach((adv) => {
+    const square = document.createElement("div");
+    square.classList.add("square");
+    square.innerHTML = `${adv.name} <div class='info' onclick='event.stopPropagation(); showInfo("${adv.name}")'>?</div>`;
+    square.addEventListener("click", () => {
+      square.classList.toggle("checked");
+    });
+    grid.appendChild(square);
+  });
+}
+
+function showInfo(name) {
+  const adv = advancements.find(a => a.name === name);
+  document.getElementById("popupContent").innerText = `${adv.name}:
+${adv.desc}`;
+  document.getElementById("popup").style.display = "block";
+}
+
+function closePopup() {
+  document.getElementById("popup").style.display = "none";
+}
+
+document.getElementById("generateBtn").addEventListener("click", generateBingoCard);

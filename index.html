@@ -1,15 +1,22 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Minecraft Achievement Bingo</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Minecraft Advancement Bingo</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Minecraft Achievement Bingo</h1>
-  <button onclick="generateBoard()">Generate New Board</button>
-  <div id="bingo-board"></div>
+  <h1>Minecraft Advancement Bingo</h1>
+  <button id="generateBtn">Generate Bingo Card</button>
+  <div id="bingo"></div>
+
+  <div id="popup">
+    <div id="popupContent"></div>
+    <button onclick="closePopup()">Close</button>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
