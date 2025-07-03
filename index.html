@@ -1,22 +1,124 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Minecraft Advancement Bingo</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Minecraft Advancements Bingo</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      justify-items: center;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .square {
+      width: 140px;
+      height: 140px;
+      background-color: #fff;
+      border: 2px solid #888;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .square button {
+      margin-top: 10px;
+      padding: 4px 8px;
+      font-size: 0.8em;
+      cursor: pointer;
+    }
+
+    #generateBtn {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 1em;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <h1>Minecraft Advancement Bingo</h1>
-  <button id="generateBtn">Generate Bingo Card</button>
-  <div id="bingo"></div>
+  <h1>Minecraft Advancements Bingo</h1>
+  <button id="generateBtn">Generate New Card</button>
+  <div class="grid" id="bingoGrid"></div>
 
-  <div id="popup">
-    <div id="popupContent"></div>
-    <button onclick="closePopup()">Close</button>
-  </div>
+  <script>
+    const advancements = [
+      "Monster Hunter",
+      "Stone Age",
+      "Getting an Upgrade",
+      "Acquire Hardware",
+      "Suit Up",
+      "Hot Topic",
+      "Ice Bucket Challenge",
+      "Isn't It Iron Pick",
+      "Not Today, Thank You",
+      "Diamonds!",
+      "Enchanter",
+      "Zombie Doctor",
+      "We Need to Go Deeper",
+      "Return to Sender",
+      "A Terrible Fortress",
+      "Subspace Bubble",
+      "Into Fire",
+      "Eye Spy",
+      "The End?",
+      "Free the End",
+      "The Next Generation",
+      "Adventuring Time",
+      "Sniper Duel",
+      "Two Birds, One Arrow",
+      "Wax On"
+    ];
 
-  <script src="script.js"></script>
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    function generateCard() {
+      const grid = document.getElementById("bingoGrid");
+      grid.innerHTML = "";
+      const shuffled = shuffle([...advancements]).slice(0, 25);
+
+      shuffled.forEach(name => {
+        const div = document.createElement("div");
+        div.className = "square";
+        div.innerHTML = `
+          <div>${name}</div>
+          <button onclick="alert('More info about: ${name}')">Learn More</button>
+        `;
+        grid.appendChild(div);
+      });
+    }
+
+    document.getElementById("generateBtn").addEventListener("click", generateCard);
+
+    // Initial card load
+    generateCard();
+  </script>
 </body>
 </html>
