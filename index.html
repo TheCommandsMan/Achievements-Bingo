@@ -1,124 +1,198 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Minecraft Advancements Bingo</title>
+  <title>Minecraft Advancement Bingo</title>
   <style>
     body {
-      font-family: sans-serif;
-      margin: 0;
-      padding: 20px;
-      background-color: #f4f4f4;
-    }
-
-    h1 {
+      font-family: Arial, sans-serif;
       text-align: center;
-      margin-bottom: 20px;
+      background: #282c34;
+      color: white;
     }
-
-    .grid {
+    h1 {
+      margin-top: 20px;
+    }
+    #controls {
+      margin: 10px;
+    }
+    #bingo {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
-      justify-items: center;
-      max-width: 800px;
-      margin: auto;
+      gap: 5px;
+      max-width: 600px;
+      margin: 20px auto;
     }
-
     .square {
-      width: 140px;
-      height: 140px;
-      background-color: #fff;
-      border: 2px solid #888;
-      border-radius: 8px;
+      background: #3e444f;
+      border: 2px solid #61dafb;
+      aspect-ratio: 1 / 1;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      text-align: center;
+      align-items: center;
       padding: 10px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      cursor: pointer;
+      position: relative;
+      transition: background 0.2s;
+      overflow: hidden;
+      font-size: 0.85em;
     }
-
-    .square button {
-      margin-top: 10px;
-      padding: 4px 8px;
-      font-size: 0.8em;
+    .square.checked {
+      background: #2ecc71;
+    }
+    .square .info {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      font-size: 12px;
+      color: #61dafb;
       cursor: pointer;
     }
-
     #generateBtn {
-      display: block;
-      margin: 20px auto;
       padding: 10px 20px;
-      font-size: 1em;
-      background-color: #4CAF50;
-      color: white;
+      font-size: 16px;
+      background: #61dafb;
       border: none;
-      border-radius: 5px;
+      border-radius: 4px;
       cursor: pointer;
+      margin: 10px;
+    }
+    #popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #20232a;
+      padding: 20px;
+      border: 2px solid #61dafb;
+      display: none;
+      z-index: 10;
+    }
+    #popup button {
+      margin-top: 10px;
+    }
+    .difficulty-checkbox {
+      margin: 0 10px;
     }
   </style>
 </head>
 <body>
-  <h1>Minecraft Advancements Bingo</h1>
-  <button id="generateBtn">Generate New Card</button>
-  <div class="grid" id="bingoGrid"></div>
+  <h1>Minecraft Advancement Bingo</h1>
+  <div id="controls">
+    <label class="difficulty-checkbox"><input type="checkbox" id="easy" checked> Easy</label>
+    <label class="difficulty-checkbox"><input type="checkbox" id="medium" checked> Medium</label>
+    <label class="difficulty-checkbox"><input type="checkbox" id="hard" checked> Hard</label>
+  </div>
+  <button id="generateBtn">Generate Bingo Card</button>
+  <div id="bingo"></div>
+
+  <div id="popup">
+    <div id="popupContent"></div>
+    <button onclick="closePopup()">Close</button>
+  </div>
 
   <script>
     const advancements = [
-      "Monster Hunter",
-      "Stone Age",
-      "Getting an Upgrade",
-      "Acquire Hardware",
-      "Suit Up",
-      "Hot Topic",
-      "Ice Bucket Challenge",
-      "Isn't It Iron Pick",
-      "Not Today, Thank You",
-      "Diamonds!",
-      "Enchanter",
-      "Zombie Doctor",
-      "We Need to Go Deeper",
-      "Return to Sender",
-      "A Terrible Fortress",
-      "Subspace Bubble",
-      "Into Fire",
-      "Eye Spy",
-      "The End?",
-      "Free the End",
-      "The Next Generation",
-      "Adventuring Time",
-      "Sniper Duel",
-      "Two Birds, One Arrow",
-      "Wax On"
+      // Full Minecraft: Java Edition advancements list (as of 1.20)
+      { name: "Stone Age", desc: "Mine stone with your new pickaxe.", difficulty: "easy" },
+      { name: "Getting an Upgrade", desc: "Construct a better pickaxe.", difficulty: "easy" },
+      { name: "Acquire Hardware", desc: "Smelt an iron ingot.", difficulty: "easy" },
+      { name: "Suit Up", desc: "Protect yourself with a piece of iron armor.", difficulty: "easy" },
+      { name: "Hot Stuff", desc: "Fill a bucket with lava.", difficulty: "easy" },
+      { name: "Isn't It Iron Pick", desc: "Upgrade your pickaxe.", difficulty: "easy" },
+      { name: "Not Today, Thank You", desc: "Block a projectile with a shield.", difficulty: "medium" },
+      { name: "Ice Bucket Challenge", desc: "Obtain a block of obsidian.", difficulty: "easy" },
+      { name: "Diamonds!", desc: "Acquire diamonds.", difficulty: "easy" },
+      { name: "Cover Me with Diamonds", desc: "Diamond armor saves lives.", difficulty: "medium" },
+      { name: "Enchanter", desc: "Enchant an item at an Enchanting Table.", difficulty: "easy" },
+      { name: "Zombie Doctor", desc: "Weaken and then cure a zombie villager.", difficulty: "medium" },
+      { name: "Eye Spy", desc: "Follow an Eye of Ender.", difficulty: "medium" },
+      { name: "The End?", desc: "Enter the End dimension.", difficulty: "medium" },
+      { name: "Free the End", desc: "Kill the Ender Dragon.", difficulty: "hard" },
+      { name: "The Next Generation", desc: "Hold the Dragon Egg.", difficulty: "medium" },
+      { name: "Remote Getaway", desc: "Escape the End using an End Gateway.", difficulty: "medium" },
+      { name: "The End... Again...", desc: "Respawn the Ender Dragon.", difficulty: "hard" },
+      { name: "You Need a Mint", desc: "Collect dragon's breath in a glass bottle.", difficulty: "medium" },
+      { name: "Great View From Up Here", desc: "Levitate up 50 blocks from a Shulker.", difficulty: "hard" },
+      { name: "We Need to Go Deeper", desc: "Build, light and enter a Nether Portal.", difficulty: "medium" },
+      { name: "Return to Sender", desc: "Destroy a Ghast with its own fireball.", difficulty: "medium" },
+      { name: "Those Were the Days", desc: "Enter a Bastion Remnant.", difficulty: "medium" },
+      { name: "War Pigs", desc: "Loot a chest in a Bastion Remnant.", difficulty: "medium" },
+      { name: "Hidden in the Depths", desc: "Obtain ancient debris.", difficulty: "medium" },
+      { name: "Country Lode, Take Me Home", desc: "Use a compass on a Lodestone.", difficulty: "medium" },
+      { name: "Oh Shiny", desc: "Distract Piglins with gold.", difficulty: "easy" },
+      { name: "This Boat Has Legs", desc: "Ride a Strider with a warped fungus on a stick.", difficulty: "medium" },
+      { name: "A Terrible Fortress", desc: "Break your way into a Nether Fortress.", difficulty: "medium" },
+      { name: "Spooky Scary Skeleton", desc: "Obtain a Wither Skeleton’s skull.", difficulty: "hard" },
+      { name: "Into Fire", desc: "Relieve a Blaze of its rod.", difficulty: "medium" },
+      { name: "Withering Heights", desc: "Summon the Wither.", difficulty: "hard" },
+      { name: "Bring Home the Beacon", desc: "Construct and place a Beacon.", difficulty: "hard" },
+      { name: "Beaconator", desc: "Bring a beacon to full power.", difficulty: "hard" },
+      { name: "Adventuring Time", desc: "Discover every biome.", difficulty: "hard" },
+      { name: "Monsters Hunted", desc: "Kill one of every hostile monster.", difficulty: "hard" },
+      { name: "Postmortal", desc: "Use a Totem of Undying to cheat death.", difficulty: "medium" },
+      { name: "Hired Help", desc: "Summon an Iron Golem.", difficulty: "medium" },
+      { name: "Two Birds, One Arrow", desc: "Kill two Phantoms with a piercing arrow.", difficulty: "hard" },
+      { name: "Very Very Frightening", desc: "Strike a Villager with lightning.", difficulty: "hard" },
+      { name: "A Furious Cocktail", desc: "Have every potion effect applied.", difficulty: "hard" },
+      { name: "How Did We Get Here?", desc: "Have every effect (including bad ones) applied.", difficulty: "hard" },
+      { name: "Sweet Dreams", desc: "Sleep in a bed.", difficulty: "easy" },
+      { name: "Monster Hunter", desc: "Kill any hostile monster.", difficulty: "easy" },
+      { name: "Sniper Duel", desc: "Kill a skeleton from 50 meters away.", difficulty: "medium" },
+      { name: "Fishy Business", desc: "Catch a fish.", difficulty: "easy" },
+      { name: "A Seedy Place", desc: "Plant a seed and watch it grow.", difficulty: "easy" },
+      { name: "Serious Dedication", desc: "Use a Netherite ingot to upgrade a hoe.", difficulty: "medium" },
+      { name: "Wax On", desc: "Apply wax to a Copper block.", difficulty: "easy" },
+      { name: "Wax Off", desc: "Scrape wax off a Copper block.", difficulty: "easy" },
+      { name: "The Cutest Predator", desc: "Catch an axolotl in a bucket.", difficulty: "easy" },
+      { name: "The Healing Power of Friendship!", desc: "Team up with an axolotl and win a fight.", difficulty: "medium" },
+      { name: "Caves & Cliffs", desc: "Fall from the top to the bottom of the world.", difficulty: "hard" }
     ];
 
     function shuffle(array) {
-      return array.sort(() => Math.random() - 0.5);
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
     }
 
-    function generateCard() {
-      const grid = document.getElementById("bingoGrid");
+    function generateBingoCard() {
+      const grid = document.getElementById("bingo");
       grid.innerHTML = "";
-      const shuffled = shuffle([...advancements]).slice(0, 25);
+      const allowedDifficulties = [];
+      if (document.getElementById("easy").checked) allowedDifficulties.push("easy");
+      if (document.getElementById("medium").checked) allowedDifficulties.push("medium");
+      if (document.getElementById("hard").checked) allowedDifficulties.push("hard");
 
-      shuffled.forEach(name => {
-        const div = document.createElement("div");
-        div.className = "square";
-        div.innerHTML = `
-          <div>${name}</div>
-          <button onclick="alert('More info about: ${name}')">Learn More</button>
-        `;
-        grid.appendChild(div);
+      const filtered = advancements.filter(a => allowedDifficulties.includes(a.difficulty));
+      const shuffled = shuffle([...filtered]).slice(0, 25);
+
+      shuffled.forEach((adv) => {
+        const square = document.createElement("div");
+        square.classList.add("square");
+        square.innerHTML = `${adv.name} <div class='info' onclick='event.stopPropagation(); showInfo("${adv.name}")'>?</div>`;
+        square.addEventListener("click", () => {
+          square.classList.toggle("checked");
+        });
+        grid.appendChild(square);
       });
     }
 
-    document.getElementById("generateBtn").addEventListener("click", generateCard);
+    function showInfo(name) {
+      const adv = advancements.find(a => a.name === name);
+      document.getElementById("popupContent").innerText = `${adv.name}:\n${adv.desc}`;
+      document.getElementById("popup").style.display = "block";
+    }
 
-    // Initial card load
-    generateCard();
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
+    }
+
+    document.getElementById("generateBtn").addEventListener("click", generateBingoCard);
   </script>
 </body>
 </html>
