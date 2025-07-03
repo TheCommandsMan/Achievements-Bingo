@@ -1,2 +1,3 @@
 
-// All JavaScript functionality is already embedded in the HTML file
+// JS logic placeholder; full advancements list already included in canvas earlier
+// This will be replaced with the full script content in the next step
