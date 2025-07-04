@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -94,6 +93,151 @@
     <button onclick="closePopup()">Close</button>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    const advancements = [
+      { name: "Stone Age", desc: "Mine stone with your new pickaxe.", difficulty: "easy" },
+      { name: "Getting an Upgrade", desc: "Construct a better pickaxe.", difficulty: "easy" },
+      { name: "Acquire Hardware", desc: "Smelt an iron ingot.", difficulty: "easy" },
+      { name: "Suit Up", desc: "Protect yourself with a piece of iron armor.", difficulty: "easy" },
+      { name: "Hot Stuff", desc: "Fill a bucket with lava.", difficulty: "easy" },
+      { name: "Isn't It Iron Pick", desc: "Upgrade your pickaxe.", difficulty: "easy" },
+      { name: "Not Today, Thank You", desc: "Block a projectile with a shield.", difficulty: "medium" },
+      { name: "Ice Bucket Challenge", desc: "Obtain a block of obsidian.", difficulty: "easy" },
+      { name: "Diamonds!", desc: "Acquire diamonds.", difficulty: "easy" },
+      { name: "We Need to Go Deeper", desc: "Enter the Nether dimension.", difficulty: "medium" },
+      { name: "Cover Me With Diamonds", desc: "Diamond armor saves lives.", difficulty: "medium" },
+      { name: "Enchanter", desc: "Enchant an item at an Enchanting Table.", difficulty: "easy" },
+      { name: "Zombie Doctor", desc: "Weaken and then cure a zombie villager.", difficulty: "medium" },
+      { name: "Eye Spy", desc: "Follow an Eye of Ender.", difficulty: "medium" },
+      { name: "The End?", desc: "Enter the End dimension.", difficulty: "medium" },
+      { name: "Return to Sender", desc: "Destroy a Ghast with its own fireball.", difficulty: "medium" },
+      { name: "Those Were the Days", desc: "Enter a Bastion Remnant.", difficulty: "medium" },
+      { name: "Hidden in the Depths", desc: "Obtain ancient debris.", difficulty: "medium" },
+      { name: "Subspace Bubble", desc: "Use the Nether to travel 7 km in the Overworld.", difficulty: "hard" },
+      { name: "A Terrible Fortress", desc: "Break your way into a Nether Fortress.", difficulty: "medium" },
+      { name: "Who is Cutting Onions?", desc: "Obtain Crying Obsidian.", difficulty: "easy" },
+      { name: "Oh Shiny", desc: "Distract Piglins with gold.", difficulty: "easy" },
+      { name: "This Boat Has Legs", desc: "Ride a Strider with a warped fungus on a stick.", difficulty: "medium" },
+      { name: "War Pigs", desc: "Loot a chest in a Bastion Remnant.", difficulty: "medium" },
+      { name: "Country Lode, Take Me Home", desc: "Use a compass on a Lodestone.", difficulty: "medium" },
+      { name: "Cover Me in Debris", desc: "Get a full suit of Netherite armor.", difficulty: "hard" },
+      { name: "Spooky Scary Skeleton", desc: "Obtain a Wither Skeleton’s skull.", difficulty: "hard" },
+      { name: "Into Fire", desc: "Relieve a Blaze of its rod.", difficulty: "medium" },
+      { name: "Not Quite 'Nine' Lives", desc: "Charge a respawn anchor to the maximum.", difficulty: "medium" },
+      { name: "Hot Tourist Destinations", desc: "Visit all Nether biomes.", difficulty: "hard" },
+      { name: "Withering Heights", desc: "Summon the Wither.", difficulty: "hard" },
+      { name: "Uneasy Alliance", desc: "Rescue a Ghast from the Nether.", difficulty: "hard" },
+      { name: "Local Brewery", desc: "Brew a potion.", difficulty: "easy" },
+      { name: "Bring Home the Beacon", desc: "Construct and place a Beacon.", difficulty: "hard" },
+      { name: "A Furious Cocktail", desc: "Have every potion effect applied at the same time.", difficulty: "hard" },
+      { name: "How Did We Get Here?", desc: "Have every effect applied at once.", difficulty: "hard" },
+      { name: "The End", desc: "Kill the Ender Dragon.", difficulty: "hard" },
+      { name: "Free the End", desc: "Kill the Ender Dragon.", difficulty: "hard" },
+      { name: "The Next Generation", desc: "Hold the Dragon Egg.", difficulty: "medium" },
+      { name: "Remote Getaway", desc: "Escape the End using an End Gateway.", difficulty: "medium" },
+      { name: "The City at the End of the Game", desc: "Find an End City.", difficulty: "medium" },
+      { name: "Sky's the Limit", desc: "Use Elytra to fly.", difficulty: "hard" },
+      { name: "Great View From Up Here", desc: "Levitate 50 blocks from a Shulker.", difficulty: "hard" },
+      { name: "You Need a Mint", desc: "Collect Dragon's Breath.", difficulty: "medium" },
+      { name: "The End... Again...", desc: "Respawn the Ender Dragon.", difficulty: "hard" },
+      { name: "Serious Dedication", desc: "Use a Netherite ingot to upgrade a hoe.", difficulty: "medium" },
+      { name: "Adventure", desc: "Explore the world.", difficulty: "medium" },
+      { name: "Voluntary Exile", desc: "Kill a raid captain.", difficulty: "medium" },
+      { name: "Monster Hunter", desc: "Kill any hostile monster.", difficulty: "easy" },
+      { name: "What a Deal!", desc: "Successfully trade with a Villager.", difficulty: "easy" },
+      { name: "Sticky Situation", desc: "Jump into a honey block.", difficulty: "easy" },
+      { name: "Ol' Betsy", desc: "Shoot a crossbow.", difficulty: "easy" },
+      { name: "Surge Protector", desc: "Protect a villager from an undesired shock.", difficulty: "medium" },
+      { name: "Light as a Rabbit", desc: "Walk on powder snow with leather boots.", difficulty: "medium" },
+      { name: "Survival of the Fittest", desc: "Survive in a jungle.", difficulty: "medium" },
+      { name: "Sound of Music", desc: "Play music in a meadow biome.", difficulty: "easy" },
+      { name: "Star Trader", desc: "Trade with a Villager at the build height limit.", difficulty: "hard" },
+      { name: "A Seedy Place", desc: "Plant a seed and watch it grow.", difficulty: "easy" },
+      { name: "The Cutest Predator", desc: "Catch an axolotl in a bucket.", difficulty: "easy" },
+      { name: "Rabbit Season", desc: "Kill the killer bunny.", difficulty: "hard" },
+      { name: "Who's the Pillager Now?", desc: "Kill a Pillager with a crossbow.", difficulty: "medium" },
+      { name: "Arbalistic", desc: "Kill five unique mobs with one crossbow shot.", difficulty: "hard" },
+      { name: "A Throwaway Joke", desc: "Throw a trident at something.", difficulty: "medium" },
+      { name: "Very Very Frightening", desc: "Strike a Villager with lightning.", difficulty: "hard" },
+      { name: "Sniper Duel", desc: "Kill a skeleton from 50 meters away.", difficulty: "medium" },
+      { name: "Bullseye", desc: "Hit the bullseye of a target block.", difficulty: "medium" },
+      { name: "Hero of the Village", desc: "Successfully defend a village from a raid.", difficulty: "hard" },
+      { name: "Postmortal", desc: "Use a Totem of Undying.", difficulty: "medium" },
+      { name: "Hired Help", desc: "Summon an Iron Golem.", difficulty: "medium" },
+      { name: "Two Birds, One Arrow", desc: "Kill two Phantoms with a piercing arrow.", difficulty: "hard" },
+      { name: "Caves & Cliffs", desc: "Free fall from the top to bottom of the world.", difficulty: "hard" },
+      { name: "Feels Like Home", desc: "Ride a Strider on lava in the Overworld.", difficulty: "medium" },
+      { name: "Is It a Balloon?", desc: "Look at a Ghast through a spyglass.", difficulty: "easy" },
+      { name: "Birthday Song", desc: "Have an Allay drop a cake at a note block.", difficulty: "medium" },
+      { name: "Glow and Behold", desc: "Make the text of a sign glow.", difficulty: "easy" },
+      { name: "Sneak 100", desc: "Sneak near a Sculk Sensor.", difficulty: "easy" },
+      { name: "It Spreads", desc: "Kill the Warden.", difficulty: "hard" },
+      { name: "Bee Our Guest", desc: "Use a campfire to collect honey from a beehive.", difficulty: "easy" },
+      { name: "The Parrots and the Bats", desc: "Breed two animals together.", difficulty: "easy" },
+      { name: "Best Friends Forever", desc: "Tame an animal.", difficulty: "easy" },
+      { name: "Fishy Business", desc: "Catch a fish.", difficulty: "easy" },
+      { name: "A Complete Catalogue", desc: "Tame all cat variants.", difficulty: "hard" },
+      { name: "Tactical Fishing", desc: "Catch a fish without a fishing rod.", difficulty: "medium" },
+      { name: "A Balanced Diet", desc: "Eat everything that is edible.", difficulty: "hard" },
+      { name: "Two by Two", desc: "Breed all the animals.", difficulty: "hard" },
+      { name: "Whatever Floats Your Goat!", desc: "Get in a boat with a goat.", difficulty: "easy" },
+      { name: "The Healing Power of Friendship!", desc: "Team up with an axolotl and win a fight.", difficulty: "medium" },
+      { name: "Bukkit Bukkit", desc: "Catch a Tadpole in a Bucket.", difficulty: "easy" },
+      { name: "When the Squad Hops into Town", desc: "Get each Frog variant.", difficulty: "hard" },
+      { name: "Bouncy Pastures", desc: "Bounce on a slime block to a bee nest.", difficulty: "medium" },
+      { name: "Castaway", desc: "Eat nothing but dried kelp for 3 days.", difficulty: "medium" },
+      { name: "Little Sniffs", desc: "Feed a Sniffer.", difficulty: "easy" },
+      { name: "Sneaky Discovery", desc: "Find a trail ruin.", difficulty: "medium" },
+      { name: "Smells Interesting", desc: "Receive a Sniffer item.", difficulty: "easy" },
+      { name: "Flower-Forest Frolic", desc: "Dance with a Bee in a Flower Forest.", difficulty: "medium" },
+      { name: "So Many Bookshelves!", desc: "Create a perfect enchanting setup.", difficulty: "easy" },
+      { name: "The Power of Books", desc: "Read every enchanted book.", difficulty: "hard" },
+      { name: "Crayon Box", desc: "Use every armor trim.", difficulty: "hard" },
+      { name: "Trim Job", desc: "Apply an armor trim.", difficulty: "easy" },
+      { name: "Smithing with Style", desc: "Use every smithing template.", difficulty: "hard" }
+    ];
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function generateBingoCard() {
+      const grid = document.getElementById("bingo");
+      grid.innerHTML = "";
+      const allowedDifficulties = [];
+      if (document.getElementById("easy").checked) allowedDifficulties.push("easy");
+      if (document.getElementById("medium").checked) allowedDifficulties.push("medium");
+      if (document.getElementById("hard").checked) allowedDifficulties.push("hard");
+
+      const filtered = advancements.filter(a => allowedDifficulties.includes(a.difficulty));
+      const shuffled = shuffle([...filtered]).slice(0, 25);
+
+      shuffled.forEach((adv) => {
+        const square = document.createElement("div");
+        square.classList.add("square");
+        square.innerHTML = `${adv.name} <div class='info' onclick='event.stopPropagation(); showInfo("${adv.name}")'>?</div>`;
+        square.addEventListener("click", () => {
+          square.classList.toggle("checked");
+        });
+        grid.appendChild(square);
+      });
+    }
+
+    function showInfo(name) {
+      const adv = advancements.find(a => a.name === name);
+      document.getElementById("popupContent").innerText = `${adv.name}:\n${adv.desc}`;
+      document.getElementById("popup").style.display = "block";
+    }
+
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
+    }
+
+    document.getElementById("generateBtn").addEventListener("click", generateBingoCard);
+  </script>
 </body>
 </html>
